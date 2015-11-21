@@ -24,6 +24,7 @@
 
 var iotdb = require('iotdb');
 var _ = iotdb._;
+var SamsungRemote = require('samsung-remote');
 
 var logger = iotdb.logger({
     name: 'homestar-samsung-smart-tv',
@@ -67,12 +68,38 @@ SamsungSmartTVBridge.prototype.discover = function () {
 
     var cp = iotdb.module("iotdb-upnp").control_point();
 
-    cp.on("device", function (native) {
-        if (native.deviceType !== "urn:samsung.com:device:RemoteControlReceiver:1") {
+    cp.on("device", function (device) {
+        if (device.deviceType !== "urn:samsung.com:device:RemoteControlReceiver:1") {
             return;
         }
 
-        self.discovered(new SamsungSmartTVBridge(self.initd, native));
+        var metad = {
+            uuid: device.uuid,
+            name: device.friendlyName,
+            manufacturer: device.manufacturer,
+            model: device.modelDescription,
+            mpn: device.modelName,
+        };
+
+        var native = new SamsungRemote({
+            ip: device.host,
+        });
+
+        native.isAlive(function(error) {
+            if (error) {
+                logger.info({
+                    method: "discover",
+                    metad: metad,
+                    cause: "may not support this protocol",
+                }, "cannot connect to this SamsungTV");
+                return;
+            }
+
+            native.metad = metad;
+
+            self.discovered(new SamsungSmartTVBridge(self.initd, native));
+        });
+
     });
 
     cp.search();
@@ -200,13 +227,11 @@ SamsungSmartTVBridge.prototype.meta = function () {
     }
 
     return {
-        "iot:thing-id": _.id.thing_urn.unique("SamsungSmartTV", self.native.uuid, self.initd.number),
-        "schema:name": self.native.name || "SamsungSmartTV",
-
-        // "iot:thing-number": self.initd.number,
-        // "iot:device-id": _.id.thing_urn.unique("SamsungSmartTV", self.native.uuid),
-        // "schema:manufacturer": "",
-        // "schema:model": "",
+        "iot:thing-id": _.id.thing_urn.unique("SamsungSmartTV", self.native.metad.uuid),
+        "schema:name": self.native.metad.name || "SamsungSmartTV",
+        "schema:model": self.native.metad.model,
+        "schema:manufacturer": self.native.metad.manufacturer,
+        "schema:mpn": self.native.metad.mpn,
     };
 };
 

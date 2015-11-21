@@ -3,6 +3,9 @@
     "bugs": {
         "url": "https://github.com/dpjanes/homestar-samsung-smart-tv/issues"
     }, 
+    "dependencies": {
+        "samsung-remote": "~1.2.4"
+    }, 
     "description": "HomeStar / IOTDB Bridge for Samsung Smart TV", 
     "devDependencies": {
         "grunt": "~0.4.5", 
