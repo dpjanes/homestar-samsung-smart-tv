@@ -1,5 +1,5 @@
 /*
- *  TemplateBridge.js
+ *  SamsungSmartTVBridge.js
  *
  *  David Janes
  *  IOTDB.org
@@ -24,13 +24,10 @@
 
 var iotdb = require('iotdb');
 var _ = iotdb._;
-var bunyan = iotdb.bunyan;
 
-var template = require('template');
-
-var logger = bunyan.createLogger({
-    name: 'homestar-template',
-    module: 'TemplateBridge',
+var logger = iotdb.logger({
+    name: 'homestar-samsung-smart-tv',
+    module: 'SamsungSmartTVBridge',
 });
 
 /**
@@ -39,25 +36,25 @@ var logger = bunyan.createLogger({
  *  @param {object|undefined} native
  *  only used for instances, should be 
  */
-var TemplateBridge = function (initd, native) {
+var SamsungSmartTVBridge = function (initd, native) {
     var self = this;
 
     self.initd = _.defaults(initd,
-        iotdb.keystore().get("bridges/TemplateBridge/initd"), {
+        iotdb.keystore().get("bridges/SamsungSmartTVBridge/initd"), {
             poll: 30
         }
     );
     self.native = native;   // the thing that does the work - keep this name
 
     if (self.native) {
-        self.queue = _.queue("TemplateBridge");
+        self.queue = _.queue("SamsungSmartTVBridge");
     }
 };
 
-TemplateBridge.prototype = new iotdb.Bridge();
+SamsungSmartTVBridge.prototype = new iotdb.Bridge();
 
-TemplateBridge.prototype.name = function () {
-    return "TemplateBridge";
+SamsungSmartTVBridge.prototype.name = function () {
+    return "SamsungSmartTVBridge";
 };
 
 /* --- lifecycle --- */
@@ -65,29 +62,27 @@ TemplateBridge.prototype.name = function () {
 /**
  *  See {iotdb.bridge.Bridge#discover} for documentation.
  */
-TemplateBridge.prototype.discover = function () {
+SamsungSmartTVBridge.prototype.discover = function () {
     var self = this;
 
-    logger.info({
-        method: "discover"
-    }, "called");
+    var cp = iotdb.module("iotdb-upnp").control_point();
 
-    /*
-     *  This is the core bit of discovery. As you find new
-     *  thimgs, make a new TemplateBridge and call 'discovered'.
-     *  The first argument should be self.initd, the second
-     *  the thing that you do work with
-     */
-    var s = self._template();
-    s.on('something', function (native) {
-        self.discovered(new TemplateBridge(self.initd, native));
+    cp.on("device", function (native) {
+        if (native.deviceType !== "urn:samsung.com:device:RemoteControlReceiver:1") {
+            return;
+        }
+
+        self.discovered(new SamsungSmartTVBridge(self.initd, native));
     });
+
+    cp.search();
+
 };
 
 /**
  *  See {iotdb.bridge.Bridge#connect} for documentation.
  */
-TemplateBridge.prototype.connect = function (connectd) {
+SamsungSmartTVBridge.prototype.connect = function (connectd) {
     var self = this;
     if (!self.native) {
         return;
@@ -99,7 +94,7 @@ TemplateBridge.prototype.connect = function (connectd) {
     self.pull();
 };
 
-TemplateBridge.prototype._setup_polling = function () {
+SamsungSmartTVBridge.prototype._setup_polling = function () {
     var self = this;
     if (!self.initd.poll) {
         return;
@@ -115,7 +110,7 @@ TemplateBridge.prototype._setup_polling = function () {
     }, self.initd.poll * 1000);
 };
 
-TemplateBridge.prototype._forget = function () {
+SamsungSmartTVBridge.prototype._forget = function () {
     var self = this;
     if (!self.native) {
         return;
@@ -132,7 +127,7 @@ TemplateBridge.prototype._forget = function () {
 /**
  *  See {iotdb.bridge.Bridge#disconnect} for documentation.
  */
-TemplateBridge.prototype.disconnect = function () {
+SamsungSmartTVBridge.prototype.disconnect = function () {
     var self = this;
     if (!self.native || !self.native) {
         return;
@@ -146,7 +141,7 @@ TemplateBridge.prototype.disconnect = function () {
 /**
  *  See {iotdb.bridge.Bridge#push} for documentation.
  */
-TemplateBridge.prototype.push = function (pushd, done) {
+SamsungSmartTVBridge.prototype.push = function (pushd, done) {
     var self = this;
     if (!self.native) {
         done(new Error("not connected"));
@@ -178,7 +173,7 @@ TemplateBridge.prototype.push = function (pushd, done) {
  *  Do the work of pushing. If you don't need queueing
  *  consider just moving this up into push
  */
-TemplateBridge.prototype._push = function (pushd) {
+SamsungSmartTVBridge.prototype._push = function (pushd) {
     if (pushd.on !== undefined) {
     }
 };
@@ -186,7 +181,7 @@ TemplateBridge.prototype._push = function (pushd) {
 /**
  *  See {iotdb.bridge.Bridge#pull} for documentation.
  */
-TemplateBridge.prototype.pull = function () {
+SamsungSmartTVBridge.prototype.pull = function () {
     var self = this;
     if (!self.native) {
         return;
@@ -198,18 +193,18 @@ TemplateBridge.prototype.pull = function () {
 /**
  *  See {iotdb.bridge.Bridge#meta} for documentation.
  */
-TemplateBridge.prototype.meta = function () {
+SamsungSmartTVBridge.prototype.meta = function () {
     var self = this;
     if (!self.native) {
         return;
     }
 
     return {
-        "iot:thing-id": _.id.thing_urn.unique("Template", self.native.uuid, self.initd.number),
-        "schema:name": self.native.name || "Template",
+        "iot:thing-id": _.id.thing_urn.unique("SamsungSmartTV", self.native.uuid, self.initd.number),
+        "schema:name": self.native.name || "SamsungSmartTV",
 
         // "iot:thing-number": self.initd.number,
-        // "iot:device-id": _.id.thing_urn.unique("Template", self.native.uuid),
+        // "iot:device-id": _.id.thing_urn.unique("SamsungSmartTV", self.native.uuid),
         // "schema:manufacturer": "",
         // "schema:model": "",
     };
@@ -218,32 +213,16 @@ TemplateBridge.prototype.meta = function () {
 /**
  *  See {iotdb.bridge.Bridge#reachable} for documentation.
  */
-TemplateBridge.prototype.reachable = function () {
+SamsungSmartTVBridge.prototype.reachable = function () {
     return this.native !== null;
 };
 
 /**
  *  See {iotdb.bridge.Bridge#configure} for documentation.
  */
-TemplateBridge.prototype.configure = function (app) {};
-
-/* -- internals -- */
-var __singleton;
-
-/**
- *  If you need a singleton to access the library
- */
-TemplateBridge.prototype._template = function () {
-    var self = this;
-
-    if (!__singleton) {
-        __singleton = template.init();
-    }
-
-    return __singleton;
-};
+SamsungSmartTVBridge.prototype.configure = function (app) {};
 
 /*
  *  API
  */
-exports.Bridge = TemplateBridge;
+exports.Bridge = SamsungSmartTVBridge;

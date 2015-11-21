@@ -22,9 +22,9 @@
 
 "use strict";
 
-exports.Bridge = require('./TemplateBridge').Bridge;
+exports.Bridge = require('./SamsungSmartTVBridge').Bridge;
 exports.bindings = [
-    require('./models/Template').binding,
+    require('./models/SamsungSmartTV').binding,
 ];
 
 exports.iotdb = require("iotdb");
