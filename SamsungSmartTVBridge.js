@@ -31,7 +31,8 @@ var logger = iotdb.logger({
     module: 'SamsungSmartTVBridge',
 });
 
-var COMMAND_DELAY = 100;    // 100ms between commands
+var DELAY_COMMAND = 100;    // 100ms between commands
+var DELAY_CHANNEL = 1000;   // after setting channel
 
 
 /**
@@ -201,17 +202,23 @@ SamsungSmartTVBridge.prototype.push = function (pushd, done) {
 
         if (pushd.off !== undefined) {
             _doing();
-            self._push_off(pushd.off, _done);
+            this._send('KEY_POWEROFF', _done);
+
+            pushd = {}; // what else can we do?
         }
 
         if (pushd.channel !== undefined) {
+            var channel = "" + pushd.channel;
+            for (var i = 0; i < channel.length; i++) {
+                _doing();
+                this._send('KEY_' + channel[i], _done);
+            }
+
             _doing();
-            self._push_channel(pushd.channel, _done);
+            setTimeout(_done, DELAY_CHANNEL);
         }
 
         if (pushd.band !== undefined) {
-            _doing();
-            self._push_band(pushd.band, _done);
         }
 
         _done();
@@ -238,7 +245,7 @@ SamsungSmartTVBridge.prototype._send = function (command, done) {
 
                     setTimeout(function() {
                         self.queue.finished(qitem);
-                    }, COMMAND_TIMEOUT);
+                    }, DELAY_COMMAND);
                 });
             }
             catch (x) {
@@ -251,18 +258,6 @@ SamsungSmartTVBridge.prototype._send = function (command, done) {
     };
 
     self.queue.add(qitem);
-};
-
-SamsungSmartTVBridge.prototype._push_off = function (off, done) {
-    this._send('KEY_POWEROFF', done);
-};
-
-SamsungSmartTVBridge.prototype._push_channel = function (channel, done) {
-    done();
-};
-
-SamsungSmartTVBridge.prototype._push_band = function (band, done) {
-    done();
 };
 
 /**
