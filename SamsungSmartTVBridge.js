@@ -31,6 +31,9 @@ var logger = iotdb.logger({
     module: 'SamsungSmartTVBridge',
 });
 
+var COMMAND_DELAY = 100;    // 100ms between commands
+
+
 /**
  *  See {iotdb.bridge.Bridge#Bridge} for documentation.
  *  <p>
@@ -182,27 +185,84 @@ SamsungSmartTVBridge.prototype.push = function (pushd, done) {
         pushd: pushd
     }, "push");
 
+    var dcount = 0;
+    var _doing = function() {
+        dcount++;
+    }
+    var _done = function() {
+        if ((--dcount <= 0) && done) {
+            done();
+            done = null;
+        }
+    };
+    
+    try {
+        _doing();
+
+        if (pushd.off !== undefined) {
+            _doing();
+            self._push_off(pushd.off, _done);
+        }
+
+        if (pushd.channel !== undefined) {
+            _doing();
+            self._push_channel(pushd.channel, _done);
+        }
+
+        if (pushd.band !== undefined) {
+            _doing();
+            self._push_band(pushd.band, _done);
+        }
+
+        _done();
+    } catch (x) {
+        dcount = -9999;
+        done(new Error("unexpected excption: " + x));
+    }
+};
+
+SamsungSmartTVBridge.prototype._send = function (command, done) {
+    var self = this;
     var qitem = {
-        // if you set "id", new pushes will unqueue old pushes with the same id
-        // id: self.number, 
         run: function () {
-            self._pushd(pushd);
-            self.queue.finished(qitem);
+            try {
+                self.native.send(command, function(error) {
+                    if (error) {
+                        logger.error({
+                            method: "_push_off",
+                            error: _.error.message(error),
+                        }, "could not send command to TV");
+
+                        self.disconnect();
+                    }
+
+                    setTimeout(function() {
+                        self.queue.finished(qitem);
+                    }, COMMAND_TIMEOUT);
+                });
+            }
+            catch (x) {
+                self.queue.finished(qitem);
+            }
         },
-        code: function() {
+        coda: function() {
             done();
         },
     };
+
     self.queue.add(qitem);
 };
 
-/**
- *  Do the work of pushing. If you don't need queueing
- *  consider just moving this up into push
- */
-SamsungSmartTVBridge.prototype._push = function (pushd) {
-    if (pushd.on !== undefined) {
-    }
+SamsungSmartTVBridge.prototype._push_off = function (off, done) {
+    this._send('KEY_POWEROFF', done);
+};
+
+SamsungSmartTVBridge.prototype._push_channel = function (channel, done) {
+    done();
+};
+
+SamsungSmartTVBridge.prototype._push_band = function (band, done) {
+    done();
 };
 
 /**

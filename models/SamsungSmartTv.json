@@ -13,10 +13,6 @@
     "iot:purpose": {
       "@id": "https://iotdb.org/pub/iot#purpose",
       "@type": "@id"
-    },
-    "iot:type": {
-      "@id": "https://iotdb.org/pub/iot#type",
-      "@type": "@id"
     }
   },
   "@id": "",
@@ -30,10 +26,8 @@
     {
       "@type": "iot:Attribute",
       "@id": "#on",
-      "schema:name": "on",
-      "iot:purpose": "iot-purpose:on",
-      "iot:type": "iot:type.boolean",
-      "iot:read": true,
+      "schema:name": "off",
+      "iot:purpose": "iot-purpose:on.false",
       "iot:write": true
     }
   ]
