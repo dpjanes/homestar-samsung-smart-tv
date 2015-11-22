@@ -15,7 +15,7 @@ tv.discovered = function (bridge) {
     };
     bridge.connect({});
     bridge.push({
-        on: false,
+        off: true,
     });
 };
 tv.discover();
