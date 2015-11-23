@@ -6,4 +6,23 @@ ATTRIBUTE on WITH
     schema:name = "off",
     iot:purpose = iot-purpose:on.false,
     iot:write = true
+ATTRIBUTE "volume.delta" WITH
+    schema:name = "volume up or down",
+    iot:purpose = iot-purpose:volume.delta,
+    iot:type = iot:type.integer,
+    iot:write = true
+ATTRIBUTE "band" WITH
+    schema:name = "band",
+    iot:purpose = iot-purpose:band,
+    iot:type = iot:type.string,
+    iot:enumeration = "iot-purpose:band.tv",
+    iot:enumeration = "iot-purpose:band.hdmi",
+    iot:enumeration = "iot-purpose:band.hdmi#1",
+    iot:enumeration = "iot-purpose:band.hdmi#2",
+    iot:enumeration = "iot-purpose:band.hdmi#3",
+    iot:enumeration = "iot-purpose:band.hdmi#4",
+    iot:enumeration = "iot-purpose:band.av",
+    iot:enumeration = "iot-purpose:band.av#1",
+    iot:enumeration = "iot-purpose:band.av#2",
+    iot:write = true
 ;

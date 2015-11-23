@@ -256,12 +256,20 @@ SamsungSmartTVBridge.prototype.push = function (pushd, done) {
             }
         }
 
-        if (pushd['volume.up'] !== undefined) {
-            _doing();
-            this._send('KEY_VOLUP', _done);
-        } else else if (pushd['volume.down'] !== undefined) {
-            _doing();
-            this._send('KEY_VOLDOWN', _done);
+        if (pushd['volume.delta'] !== undefined) {
+            var delta = pushd['volume.delta'];
+            if (delta < 0) {
+                delta = -delta;
+                for (var di = 0; di < delta; di++) {
+                    _doing();
+                    this._send('KEY_VOLDOWN', _done);
+                }
+            } else {
+                for (var ui = 0; ui < delta; ui++) {
+                    _doing();
+                    this._send('KEY_VOLUP', _done);
+                }
+            }
         }
 
         _done();

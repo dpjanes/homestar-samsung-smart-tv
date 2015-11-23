@@ -13,6 +13,14 @@
     "iot:purpose": {
       "@id": "https://iotdb.org/pub/iot#purpose",
       "@type": "@id"
+    },
+    "iot:type": {
+      "@id": "https://iotdb.org/pub/iot#type",
+      "@type": "@id"
+    },
+    "iot:enumeration": {
+      "@id": "https://iotdb.org/pub/iot#enumeration",
+      "@type": "@id"
     }
   },
   "@id": "",
@@ -28,6 +36,33 @@
       "@id": "#on",
       "schema:name": "off",
       "iot:purpose": "iot-purpose:on.false",
+      "iot:write": true
+    },
+    {
+      "@type": "iot:Attribute",
+      "@id": "#volume.delta",
+      "schema:name": "volume up or down",
+      "iot:purpose": "iot-purpose:volume.delta",
+      "iot:type": "iot:type.integer",
+      "iot:write": true
+    },
+    {
+      "@type": "iot:Attribute",
+      "@id": "#band",
+      "schema:name": "band",
+      "iot:purpose": "iot-purpose:band",
+      "iot:type": "iot:type.string",
+      "iot:enumeration": [
+        "iot-purpose:band.tv",
+        "iot-purpose:band.hdmi",
+        "iot-purpose:band.hdmi#1",
+        "iot-purpose:band.hdmi#2",
+        "iot-purpose:band.hdmi#3",
+        "iot-purpose:band.hdmi#4",
+        "iot-purpose:band.av",
+        "iot-purpose:band.av#1",
+        "iot-purpose:band.av#2"
+      ],
       "iot:write": true
     }
   ]

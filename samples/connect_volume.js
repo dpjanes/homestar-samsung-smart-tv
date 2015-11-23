@@ -14,7 +14,7 @@ tv.discovered = function (bridge) {
     };
     bridge.connect({});
     bridge.push({
-        'volume.up': true,
+        'volume.delta': 10,
     });
 };
 tv.discover();
