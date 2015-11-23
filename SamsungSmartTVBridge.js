@@ -219,6 +219,49 @@ SamsungSmartTVBridge.prototype.push = function (pushd, done) {
         }
 
         if (pushd.band !== undefined) {
+            var band = _.ld.compact(pushd.band);
+            var cmd = null;
+            
+            if (band === "iot-purpose:band.hdmi") {
+                cmd = 'KEY_HDMI1';
+            } else if (band === "iot-purpose:band.hdmi#1") {
+                cmd = 'KEY_HDMI1';
+            } else if (band === "iot-purpose:band.hdmi#2") {
+                cmd = 'KEY_HDMI2';
+            } else if (band === "iot-purpose:band.hdmi#3") {
+                cmd = 'KEY_HDMI3';
+            } else if (band === "iot-purpose:band.hdmi#4") {
+                cmd = 'KEY_HDMI4';
+            } else if (band === "iot-purpose:band.tv") {
+                cmd = 'KEY_TV';
+            } else if (band === "iot-purpose:band.av") {
+                cmd = 'KEY_AV1';
+            } else if (band === "iot-purpose:band.av#1") {
+                cmd = 'KEY_AV1';
+            } else if (band === "iot-purpose:band.av#2") {
+                cmd = 'KEY_AV2';
+            } else if (band === "iot-purpose:band.av#3") {
+                cmd = 'KEY_AV3';
+            }
+
+            if (cmd !== null) {
+                _doing();
+                this._send('KEY_POWEROFF', _done);
+            } else {
+                logger.error({
+                    method: "push",
+                    band: band,
+                    cause: "user entered a band we do not recognize",
+                }, "band not recognized");
+            }
+        }
+
+        if (pushd['volume.up'] !== undefined) {
+            _doing();
+            this._send('KEY_VOLUP', _done);
+        } else else if (pushd['volume.down'] !== undefined) {
+            _doing();
+            this._send('KEY_VOLDOWN', _done);
         }
 
         _done();

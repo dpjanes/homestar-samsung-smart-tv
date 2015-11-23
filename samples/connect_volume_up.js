@@ -13,5 +13,8 @@ tv.discovered = function (bridge) {
         console.log("+", "state-change", state);
     };
     bridge.connect({});
+    bridge.push({
+        'volume.up': true,
+    });
 };
 tv.discover();

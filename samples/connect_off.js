@@ -1,6 +1,5 @@
 /*
- *  NOTE: the best way to use this is in "model.js"
- *  Connect to a Denon AVR at a named host
+ *  NOTE: prefer iotdb versions
  */
 
 "use strict";
