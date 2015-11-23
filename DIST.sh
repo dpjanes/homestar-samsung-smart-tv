@@ -6,7 +6,6 @@
 #   2015-11-21
 #
 
-exit 0
 PACKAGE=homestar-samsung-smart-tv
 DIST_ROOT=/var/tmp/.dist.$$
 
@@ -34,8 +33,8 @@ echo "=================="
         --exclude "node_modules" \
         README.md LICENSE \
         homestar.json package.json \
-        TemplateBridge.js index.js \
-        models/*js \
+        SamsungSmartTVBridge.js index.js \
+        models/*.js models/*.json \
         |
     ( cd "${NPM_DST}" && tar xvf - )
 
