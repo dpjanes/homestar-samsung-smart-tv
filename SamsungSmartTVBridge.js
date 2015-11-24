@@ -31,7 +31,7 @@ var logger = iotdb.logger({
     module: 'SamsungSmartTVBridge',
 });
 
-var DELAY_COMMAND = 100;    // 100ms between commands
+var DELAY_COMMAND = 333;    // 333ms between commands
 var DELAY_CHANNEL = 1000;   // after setting channel
 
 
@@ -246,7 +246,7 @@ SamsungSmartTVBridge.prototype.push = function (pushd, done) {
 
             if (cmd !== null) {
                 _doing();
-                this._send('KEY_POWEROFF', _done);
+                this._send(cmd, _done);
             } else {
                 logger.error({
                     method: "push",

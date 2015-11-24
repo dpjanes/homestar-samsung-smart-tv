@@ -14,7 +14,7 @@ tv.discovered = function (bridge) {
     };
     bridge.connect({});
     bridge.push({
-        'band': 'iot-purpose:band.tv',
+        'band': 'iot-purpose:band.hdmi',
     });
 };
 tv.discover();
