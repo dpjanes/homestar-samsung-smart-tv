@@ -4,14 +4,14 @@
 
 "use strict";
 
-var Model = require('../SamsungSmartTVBridge').Bridge;
+var Bridge = require('../SamsungSmartTVBridge').Bridge;
 
-var tv = new Model();
-tv.discovered = function (bridge) {
+var exemplar = new Bridge();
+exemplar.discovered = function (bridge) {
     console.log("+", "got one", bridge.meta());
     bridge.pulled = function (state) {
         console.log("+", "state-change", state);
     };
     bridge.connect({});
 };
-tv.discover();
+exemplar.discover();
