@@ -53,8 +53,27 @@ var SamsungSmartTVBridge = function (initd, native) {
 
     if (self.native) {
         self.queue = _.queue("SamsungSmartTVBridge");
+
+        self.bandd = _.defaults(
+            iotdb.keystore().get("bridges/SamsungSmartTVBridge/band"),
+            {
+                "iot-purpose:band.hdmi": 'KEY_EXT20', // 'KEY_HDMI1',
+                "iot-purpose:band.hdmi#1": 'KEY_EXT20', // 'KEY_HDMI1',
+                "iot-purpose:band.hdmi#2": 'KEY_AUTO_ARC_PIP_WIDE', // 'KEY_HDMI2',
+                "iot-purpose:band.tv": 'KEY_TV',
+                "iot-purpose:band.av": 'KEY_AV1',
+                "iot-purpose:band.av#1": 'KEY_AV1',
+                "iot-purpose:band.av#2": 'KEY_AV2',
+                "iot-purpose:band.component": 'KEY_COMPONENT1',
+                "iot-purpose:band.component#1": 'KEY_COMPONENT1',
+                "iot-purpose:band.svideo": 'KEY_SVIDEO1',
+                "iot-purpose:band.svideo#1": 'KEY_SVIDEO1',
+                // "iot-purpose:band.av#3": 'KEY_AV3',
+            }
+        );
     }
 };
+
 
 SamsungSmartTVBridge.prototype = new iotdb.Bridge();
 
@@ -220,29 +239,7 @@ SamsungSmartTVBridge.prototype.push = function (pushd, done) {
 
         if (pushd.band !== undefined) {
             var band = _.ld.compact(pushd.band);
-            var cmd = null;
-            
-            if (band === "iot-purpose:band.hdmi") {
-                cmd = 'KEY_HDMI1';
-            } else if (band === "iot-purpose:band.hdmi#1") {
-                cmd = 'KEY_HDMI1';
-            } else if (band === "iot-purpose:band.hdmi#2") {
-                cmd = 'KEY_HDMI2';
-            } else if (band === "iot-purpose:band.hdmi#3") {
-                cmd = 'KEY_HDMI3';
-            } else if (band === "iot-purpose:band.hdmi#4") {
-                cmd = 'KEY_HDMI4';
-            } else if (band === "iot-purpose:band.tv") {
-                cmd = 'KEY_TV';
-            } else if (band === "iot-purpose:band.av") {
-                cmd = 'KEY_AV1';
-            } else if (band === "iot-purpose:band.av#1") {
-                cmd = 'KEY_AV1';
-            } else if (band === "iot-purpose:band.av#2") {
-                cmd = 'KEY_AV2';
-            } else if (band === "iot-purpose:band.av#3") {
-                cmd = 'KEY_AV3';
-            }
+            var cmd = self.bandd[band];
 
             if (cmd !== null) {
                 _doing();
