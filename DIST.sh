@@ -34,6 +34,7 @@ echo "=================="
         README.md LICENSE \
         homestar.json package.json \
         SamsungSmartTVBridge.js index.js \
+        commands/samsung-send.js
         models/*.js models/*.json \
         |
     ( cd "${NPM_DST}" && tar xvf - )
