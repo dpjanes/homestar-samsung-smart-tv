@@ -323,7 +323,7 @@ SamsungSmartTVBridge.prototype.pull = function () {
         }
 
         logger.error({
-            method: pull,
+            method: "pull",
             error: _.error.messsage(error),
             cause: "TV turned off or network error - will be rediscovered when back",
         }, "bridge has gone away");
