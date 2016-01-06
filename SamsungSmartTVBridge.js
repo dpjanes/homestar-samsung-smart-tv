@@ -317,7 +317,7 @@ SamsungSmartTVBridge.prototype.pull = function () {
         return;
     }
 
-    native.isAlive(function(error) {
+    self.native.isAlive(function(error) {
         if (!error) {
             return;
         }
