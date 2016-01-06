@@ -316,6 +316,21 @@ SamsungSmartTVBridge.prototype.pull = function () {
     if (!self.native) {
         return;
     }
+
+    native.isAlive(function(error) {
+        if (!error) {
+            return;
+        }
+
+        logger.error({
+            method: pull,
+            error: _.error.messsage(error),
+            cause: "TV turned off or network error - will be rediscovered when back",
+        }, "bridge has gone away");
+
+        self.native = null;
+        self.pull();
+    });
 };
 
 /* --- state --- */
