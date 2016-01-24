@@ -317,19 +317,19 @@ SamsungSmartTVBridge.prototype.pull = function () {
         return;
     }
 
-    self.native.isAlive(function(error) {
-        if (!error) {
+    self.native.isAlive(function(is_alive) {
+        if (!is_alive) {
             return;
         }
 
         logger.error({
             method: "pull",
-            error: _.error.messsage(error),
+            error: new Error("TV not reachable"),
             cause: "TV turned off or network error - will be rediscovered when back",
         }, "bridge has gone away");
 
         self.native = null;
-        self.pull();
+        self.pulled();
     });
 };
 
