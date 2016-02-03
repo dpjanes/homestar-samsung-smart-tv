@@ -51,7 +51,7 @@ exports.run = function (ad) {
 
     var command = ad._[1];
 
-    var cp = iotdb.module("iotdb-upnp").control_point();
+    var cp = require("iotdb-upnp").control_point();
 
     console.log("+", "looking for Samsung TV using UPnP");
 

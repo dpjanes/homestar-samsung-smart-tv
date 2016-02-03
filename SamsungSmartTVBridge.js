@@ -89,7 +89,7 @@ SamsungSmartTVBridge.prototype.name = function () {
 SamsungSmartTVBridge.prototype.discover = function () {
     var self = this;
 
-    var cp = iotdb.module("iotdb-upnp").control_point();
+    var cp = require("iotdb-upnp").control_point();
 
     cp.on("device", function (device) {
         if (device.deviceType !== "urn:samsung.com:device:RemoteControlReceiver:1") {
