@@ -10,5 +10,6 @@ var iotdb = require("iotdb");
 
 exports.binding = {
     bridge: require('../SamsungSmartTVBridge').Bridge,
-    model: require('./SamsungSmartTv.json'),
+    model: require('./samsung-smart-tv.json'),
 };
+

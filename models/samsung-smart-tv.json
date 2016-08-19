@@ -3,17 +3,12 @@
     "@base": "file:///samsung-smart-tv",
     "@vocab": "file:///samsung-smart-tv#",
     "iot": "https://iotdb.org/pub/iot#",
-    "schema": "http://schema.org/",
     "iot-purpose": "https://iotdb.org/pub/iot-purpose#",
-    "iot-facet": "https://iotdb.org/pub/iot-facet#",
-    "iot:facet": {
-      "@id": "https://iotdb.org/pub/iot#facet",
-      "@type": "@id"
-    },
     "iot:purpose": {
       "@id": "https://iotdb.org/pub/iot#purpose",
       "@type": "@id"
     },
+    "schema": "http://schema.org/",
     "iot:type": {
       "@id": "https://iotdb.org/pub/iot#type",
       "@type": "@id"
@@ -21,37 +16,41 @@
     "iot:enumeration": {
       "@id": "https://iotdb.org/pub/iot#enumeration",
       "@type": "@id"
+    },
+    "iot-facet": "https://iotdb.org/pub/iot-facet#",
+    "iot:facet": {
+      "@id": "https://iotdb.org/pub/iot#facet",
+      "@type": "@id"
     }
   },
   "@id": "",
   "@type": "iot:Model",
-  "schema:name": "Samsung Smart TV",
-  "iot:facet": [
-    "iot-facet:media",
-    "iot-facet:media.tv"
-  ],
   "iot:attribute": [
     {
-      "@type": "iot:Attribute",
       "@id": "#on",
-      "schema:name": "off",
+      "@type": "iot:Attribute",
+      "iot:actuator": true,
       "iot:purpose": "iot-purpose:on.false",
-      "iot:write": true
+      "iot:read": true,
+      "iot:sensor": true,
+      "iot:write": true,
+      "schema:name": "off"
     },
     {
-      "@type": "iot:Attribute",
       "@id": "#volume.delta",
-      "schema:name": "volume up or down",
+      "@type": "iot:Attribute",
+      "iot:actuator": true,
       "iot:purpose": "iot-purpose:volume.delta",
+      "iot:read": true,
+      "iot:sensor": true,
       "iot:type": "iot:type.integer",
-      "iot:write": true
+      "iot:write": true,
+      "schema:name": "volume up or down"
     },
     {
-      "@type": "iot:Attribute",
       "@id": "#band",
-      "schema:name": "band",
-      "iot:purpose": "iot-purpose:band",
-      "iot:type": "iot:type.string",
+      "@type": "iot:Attribute",
+      "iot:actuator": true,
       "iot:enumeration": [
         "iot-purpose:band.tv",
         "iot-purpose:band.hdmi",
@@ -65,7 +64,18 @@
         "iot-purpose:band.svideo",
         "iot-purpose:band.svideo#1"
       ],
-      "iot:write": true
+      "iot:purpose": "iot-purpose:band",
+      "iot:read": true,
+      "iot:sensor": true,
+      "iot:type": "iot:type.string",
+      "iot:write": true,
+      "schema:name": "band"
     }
-  ]
+  ],
+  "iot:facet": [
+    "iot-facet:media",
+    "iot-facet:media.tv"
+  ],
+  "iot:model-id": "samsung-smart-tv",
+  "schema:name": "Samsung Smart TV"
 }
