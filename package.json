@@ -7,7 +7,7 @@
         "iotdb": ">=3.0.0", 
         "samsung-remote": "~1.2.5"
     }, 
-    "description": "HomeStar / IOTDB Bridge for Samsung Smart TV", 
+    "description": "IOTDB Bridge for Samsung Smart TV", 
     "devDependencies": {
         "grunt": "~1.0.1", 
         "grunt-contrib-jshint": "~1.0.0", 
