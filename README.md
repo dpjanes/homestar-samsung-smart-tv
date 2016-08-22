@@ -17,7 +17,7 @@ which should turn off your TV. There's no corresponding way to turn on the TV un
 
 # Installation
 
-[Install Home☆Star first](https://homestar.io/about/install).
+* [Read this first](https://github.com/dpjanes/node-iotdb/blob/master/docs/install.md)
 
 Then:
 
