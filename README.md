@@ -1,5 +1,6 @@
 # homestar-samsung-smart-tv
-IOTDB / Home☆Star Module for [Samsung Smart TV](http://www.samsung.com/us/experience/smart-tv/)
+[IOTDB](https://github.com/dpjanes/node-iotdb) Bridge for [Samsung Smart TV](http://www.samsung.com/us/experience/smart-tv/)
+
 <img src="https://raw.githubusercontent.com/dpjanes/iotdb-homestar/master/docs/HomeStar.png" align="right" />
 
 This [Module](https://homestar.io/about/things) allows you to control your Samsung Smart TV devices from IOTDB and Home☆Star.
