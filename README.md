@@ -3,9 +3,9 @@
 
 <img src="https://raw.githubusercontent.com/dpjanes/iotdb-homestar/master/docs/HomeStar.png" align="right" />
 
-This [Module](https://homestar.io/about/things) allows you to control your Samsung Smart TV devices from IOTDB and Home☆Star.
+# About
 
-## Notes 
+This [Module](https://homestar.io/about/things) allows you to control your Samsung Smart TV devices from IOTDB and Home☆Star.
 
 Note that "Samsung Smart TV" is basically just a name. It's not really that Smart, and not all Samsung Smart TVs will work with this because reasons.
 
@@ -21,7 +21,7 @@ which should turn off your TV. There's no corresponding way to turn on the TV un
 
 Then:
 
-    $ homestar install homestar-samsung-smart-tv
+    $ npm install homestar-samsung-smart-tv
 
 # Use
 
