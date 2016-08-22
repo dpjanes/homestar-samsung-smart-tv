@@ -23,33 +23,17 @@ Then:
 
     $ homestar install homestar-samsung-smart-tv
 
-## Home☆Star
-
-Do:
-
-	$ homestar runner browser=1
-	
-You may have to refresh the page, as it may take a little while for your Things to be discovered. If your TV is not on it won't show up.
-
-## IOTDB
+# Use
 
 Change to HDMI1 and turn the volume up by 5 levels.
 
-	$ node
-	>>> iotdb = require('iotdb')
-	>>> things = iotdb.connect("SamsungSmartTV")
-	>>> things.set(":band", "iot-purpose:band.hdmi")
-	>>> things.set(":volume.delta", 5)
+	const iotdb = require('iotdb')
+    iotdb.use("iotdb-samsung-smart-tv")
+
+	const things = iotdb.connect("SamsungSmartTV")
+	things.set(":band", "iot-purpose:band.hdmi")
+	things.set(":volume.delta", 5)
 	
-## [IoTQL](https://github.com/dpjanes/iotdb-iotql)
-
-Change to HDMI1 
-
-	$ homestar install iotql
-	$ homestar iotql
-	> SET state:band = iot-purpose:band.hdmi WHERE meta:model-id = "samsung-smart-tv";
-	
-
 # Models
 ## SamsungSmartTV
 
