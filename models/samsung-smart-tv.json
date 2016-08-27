@@ -31,7 +31,7 @@
       "@type": "iot:Attribute",
       "iot:actuator": true,
       "iot:purpose": "iot-purpose:on.false",
-      "iot:read": true,
+      "iot:read": false,
       "iot:sensor": true,
       "iot:write": true,
       "schema:name": "off"
@@ -41,7 +41,7 @@
       "@type": "iot:Attribute",
       "iot:actuator": true,
       "iot:purpose": "iot-purpose:volume.delta",
-      "iot:read": true,
+      "iot:read": false,
       "iot:sensor": true,
       "iot:type": "iot:type.integer",
       "iot:write": true,
@@ -65,7 +65,7 @@
         "iot-purpose:band.svideo#1"
       ],
       "iot:purpose": "iot-purpose:band",
-      "iot:read": true,
+      "iot:read": false,
       "iot:sensor": true,
       "iot:type": "iot:type.string",
       "iot:write": true,
