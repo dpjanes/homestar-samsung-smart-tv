@@ -26,3 +26,5 @@ exports.Bridge = require('./SamsungSmartTVBridge').Bridge;
 exports.bindings = [
     require('./models/SamsungSmartTV').binding,
 ];
+
+exports.module_folder = __dirname;
