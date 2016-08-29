@@ -54,15 +54,15 @@
       "iot:enumeration": [
         "iot-purpose:band.tv",
         "iot-purpose:band.hdmi",
-        "iot-purpose:band.hdmi#1",
-        "iot-purpose:band.hdmi#2",
+        "iot-purpose:band.hdmi.1",
+        "iot-purpose:band.hdmi.2",
         "iot-purpose:band.av",
-        "iot-purpose:band.av#1",
-        "iot-purpose:band.av#2",
+        "iot-purpose:band.av.1",
+        "iot-purpose:band.av.2",
         "iot-purpose:band.component",
-        "iot-purpose:band.component#1",
+        "iot-purpose:band.component.1",
         "iot-purpose:band.svideo",
-        "iot-purpose:band.svideo#1"
+        "iot-purpose:band.svideo.1"
       ],
       "iot:purpose": "iot-purpose:band",
       "iot:read": false,
