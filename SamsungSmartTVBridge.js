@@ -22,17 +22,17 @@
 
 "use strict";
 
-var iotdb = require('iotdb');
-var _ = iotdb._;
-var SamsungRemote = require('samsung-remote');
+const iotdb = require('iotdb');
+const _ = iotdb._;
+const SamsungRemote = require('samsung-remote');
 
-var logger = iotdb.logger({
+const logger = iotdb.logger({
     name: 'homestar-samsung-smart-tv',
     module: 'SamsungSmartTVBridge',
 });
 
-var DELAY_COMMAND = 333;    // 333ms between commands
-var DELAY_CHANNEL = 1000;   // after setting channel
+const DELAY_COMMAND = 333;    // 333ms between commands
+const DELAY_CHANNEL = 1000;   // after setting channel
 
 
 /**
@@ -41,8 +41,8 @@ var DELAY_CHANNEL = 1000;   // after setting channel
  *  @param {object|undefined} native
  *  only used for instances, should be 
  */
-var SamsungSmartTVBridge = function (initd, native) {
-    var self = this;
+const SamsungSmartTVBridge = function (initd, native) {
+    const self = this;
 
     self.initd = _.defaults(initd,
         iotdb.keystore().get("bridges/SamsungSmartTVBridge/initd"), {
@@ -77,17 +77,13 @@ var SamsungSmartTVBridge = function (initd, native) {
 
 SamsungSmartTVBridge.prototype = new iotdb.Bridge();
 
-SamsungSmartTVBridge.prototype.name = function () {
-    return "SamsungSmartTVBridge";
-};
-
 /* --- lifecycle --- */
 
 /**
  *  See {iotdb.bridge.Bridge#discover} for documentation.
  */
 SamsungSmartTVBridge.prototype.discover = function () {
-    var self = this;
+    const self = this;
 
     var cp = require("iotdb-upnp").control_point();
 
@@ -96,7 +92,7 @@ SamsungSmartTVBridge.prototype.discover = function () {
             return;
         }
 
-        var metad = {
+        const metad = {
             uuid: device.uuid,
             name: device.friendlyName,
             manufacturer: device.manufacturer,
@@ -104,20 +100,11 @@ SamsungSmartTVBridge.prototype.discover = function () {
             mpn: device.modelName,
         };
 
-        var native = new SamsungRemote({
+        const native = new SamsungRemote({
             ip: device.host,
         });
 
-        native.isAlive(function(error) {
-            if (error) {
-                logger.info({
-                    method: "discover",
-                    metad: metad,
-                    cause: "may not support this protocol",
-                }, "cannot connect to this SamsungTV");
-                return;
-            }
-
+        native.isAlive(() => {
             native.metad = metad;
 
             self.discovered(new SamsungSmartTVBridge(self.initd, native));
@@ -133,7 +120,7 @@ SamsungSmartTVBridge.prototype.discover = function () {
  *  See {iotdb.bridge.Bridge#connect} for documentation.
  */
 SamsungSmartTVBridge.prototype.connect = function (connectd) {
-    var self = this;
+    const self = this;
     if (!self.native) {
         return;
     }
@@ -145,7 +132,7 @@ SamsungSmartTVBridge.prototype.connect = function (connectd) {
 };
 
 SamsungSmartTVBridge.prototype._setup_polling = function () {
-    var self = this;
+    const self = this;
     if (!self.initd.poll) {
         return;
     }
@@ -161,7 +148,7 @@ SamsungSmartTVBridge.prototype._setup_polling = function () {
 };
 
 SamsungSmartTVBridge.prototype._forget = function () {
-    var self = this;
+    const self = this;
     if (!self.native) {
         return;
     }
@@ -178,7 +165,7 @@ SamsungSmartTVBridge.prototype._forget = function () {
  *  See {iotdb.bridge.Bridge#disconnect} for documentation.
  */
 SamsungSmartTVBridge.prototype.disconnect = function () {
-    var self = this;
+    const self = this;
     if (!self.native || !self.native) {
         return;
     }
@@ -192,7 +179,7 @@ SamsungSmartTVBridge.prototype.disconnect = function () {
  *  See {iotdb.bridge.Bridge#push} for documentation.
  */
 SamsungSmartTVBridge.prototype.push = function (pushd, done) {
-    var self = this;
+    const self = this;
     if (!self.native) {
         done(new Error("not connected"));
         return;
@@ -277,7 +264,7 @@ SamsungSmartTVBridge.prototype.push = function (pushd, done) {
 };
 
 SamsungSmartTVBridge.prototype._send = function (command, done) {
-    var self = this;
+    const self = this;
     var qitem = {
         run: function () {
             try {
@@ -312,7 +299,7 @@ SamsungSmartTVBridge.prototype._send = function (command, done) {
  *  See {iotdb.bridge.Bridge#pull} for documentation.
  */
 SamsungSmartTVBridge.prototype.pull = function () {
-    var self = this;
+    const self = this;
     if (!self.native) {
         return;
     }
@@ -339,7 +326,7 @@ SamsungSmartTVBridge.prototype.pull = function () {
  *  See {iotdb.bridge.Bridge#meta} for documentation.
  */
 SamsungSmartTVBridge.prototype.meta = function () {
-    var self = this;
+    const self = this;
     if (!self.native) {
         return;
     }
