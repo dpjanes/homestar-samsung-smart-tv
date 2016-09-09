@@ -92,7 +92,11 @@ SamsungSmartTVBridge.prototype.discover = function () {
             return;
         }
 
-        const metad = {
+        const native = new SamsungRemote({
+            ip: device.host,
+        });
+
+        native.metad = {
             uuid: device.uuid,
             name: device.friendlyName,
             manufacturer: device.manufacturer,
@@ -100,16 +104,7 @@ SamsungSmartTVBridge.prototype.discover = function () {
             mpn: device.modelName,
         };
 
-        const native = new SamsungRemote({
-            ip: device.host,
-        });
-
-        native.isAlive(() => {
-            native.metad = metad;
-
-            self.discovered(new SamsungSmartTVBridge(self.initd, native));
-        });
-
+        self.discovered(new SamsungSmartTVBridge(self.initd, native));
     });
 
     cp.search();
@@ -304,20 +299,14 @@ SamsungSmartTVBridge.prototype.pull = function () {
         return;
     }
 
-    self.native.isAlive(function(is_alive) {
-        if (!is_alive) {
-            return;
-        }
+    logger.error({
+        method: "pull",
+        error: new Error("TV not reachable"),
+        cause: "TV turned off or network error - will be rediscovered when back",
+    }, "bridge has gone away");
 
-        logger.error({
-            method: "pull",
-            error: new Error("TV not reachable"),
-            cause: "TV turned off or network error - will be rediscovered when back",
-        }, "bridge has gone away");
-
-        self.native = null;
-        self.pulled();
-    });
+    self.native = null;
+    self.pulled();
 };
 
 /* --- state --- */
