@@ -299,6 +299,7 @@ SamsungSmartTVBridge.prototype.pull = function () {
         return;
     }
 
+    /*
     logger.error({
         method: "pull",
         error: new Error("TV not reachable"),
@@ -307,6 +308,7 @@ SamsungSmartTVBridge.prototype.pull = function () {
 
     self.native = null;
     self.pulled();
+    */
 };
 
 /* --- state --- */
